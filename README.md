@@ -130,5 +130,7 @@ When the Transcription Job is complete, the 2nd Lambda function will be triggere
 
 If Amazon Comprehend does not directly support the language in the media, the transcript will first pass through a translation to English.
 
+Finally, the results are stored in an HTML file in the results S3 bucket.
+
 
 Enjoy!
