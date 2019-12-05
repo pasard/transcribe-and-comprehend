@@ -89,9 +89,29 @@ The command output should look like this and give confirmation that the stack ha
 D.	Post-install
 Transcribe is not supported yet by the CDK so the custom vocabulary has to be created manually.
 Log in on the AWS Console on your account and select Amazon Transcribe among the list of services.
-Create a custom vocabulary called custom-vocab_nl-NL, or replace “nl-NL” by the specific language that you want to transcribe from as illustrated on this picture :
+Create a custom vocabulary called custom-vocab_nl-NL, or replace “nl-NL” by the specific language that you want to transcribe from.
  
 The custom vocabulary has to be uploaded to S3 first (direct upload fails repeatedly in the console).
+
+For more details on custom vocabularies, see https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary.html 
+
+here is a sample custom vocabulary file (note that the column fields must be tab-separated) :
+Phrase	SoundsLike	DisplayAs	IPA
+A.P.I.	eh-pea-eye	API
+
+
+E. Usage
+
+Upon deployment the CDK stack creates 2 S3 buckets : 
+- transcribe-source-<random-string> (aka source bucket)
+- transcribe-results -<random-string> (aka results bucket)
+and 2 Lambda functions :
+- tc-stack-simpletranscribe<ID1>
+- tc-stack-simpletranscribereport<ID2>
+
+Whenever a media file is dropped in the source bucket, it will trigger the first Lambda function that will pick up the media file and, if the format is supported by Amazon Transcribe (currently .mp4, .mp3, .wav, .flac), will start a Transcription Job.
+When the Transcription Job is complete, the 2nd Lambda function will be triggered. That function extracts the necessary information from the Transcription Job, and calls Amazon Comprehend to extract further meaningful information (eg key phrases, entities, sentiment) from the transcript. 
+If Amazon Comprehend does not directly support the language in the media, the transcript will first pass through a translation to English.
 
 
 Enjoy!
