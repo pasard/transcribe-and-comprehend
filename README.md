@@ -1,8 +1,7 @@
 
-# Welcome to your CDK Python project!
+# Welcome to this Amazon Transcribe & Comprehend CDK Python project!
 
-This is a simple project for Python development with CDK.
-It leverages Amazon Transcribe and Amazon Comprehend.
+This is a simple project for Python development with CDK, illustrating how to leverage Amazon Transcribe and Amazon Comprehend (and also Amazon Translate).
 
 ## A. General instructions
 
@@ -131,6 +130,25 @@ When the Transcription Job is complete, the 2nd Lambda function will be triggere
 If Amazon Comprehend does not directly support the language in the media, the transcript will first pass through a translation to English.
 
 Finally, the results are stored in an HTML file in the results S3 bucket.
+
+
+## F. Uninstall
+
+To eventually get rid of the resources deployed by this stack on your AWS environment, run the following command :
+
+```
+$ cdk destroy
+```
+
+Note: if you use a specific AWS profile (defined in your ~/.aws directory) the command would be 
+
+```
+$ cdk destroy --profile <your AWS profile>
+```
+
+The command output should give confirmation that the stack and associated resources have been successfully deleted.
+
+The two S3 buckets need to be deleted by hand. This is on purpose, to avoid losing any data in case you haven't made any backup and wish to keep the source media and/or the transcription & analysis results.
 
 
 Enjoy!
