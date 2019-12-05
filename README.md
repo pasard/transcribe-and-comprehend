@@ -72,7 +72,7 @@ This step only has to be performed once if you never used the CDK before in your
 $ cdk bootstrap  
 ```
 
-Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be 
+Note: if you use a specific AWS profile (defined in your ~/.aws directory) the command would be 
 
 ```
 $ cdk bootstrap --profile <your AWS profile>
@@ -88,7 +88,7 @@ Issue the following command
 $ cdk deploy
 ```
 
-Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be 
+Note: if you use a specific AWS profile (defined in your ~/.aws directory) the command would be 
 
 ```
 $ cdk deploy --profile <your AWS profile>
