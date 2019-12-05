@@ -1,1 +1,8 @@
-cdk.out
+# ignore local virtual environments
+.env/
+# ignore CDK generated files
+cdk.out/
+stacks/__pycache__/
+stacks/*.egg-info/
+# ignore anything temp
+tmp/
