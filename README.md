@@ -4,7 +4,7 @@
 This is a simple project for Python development with CDK.
 It leverages Amazon Transcribe and Amazon Comprehend.
 
-A. General instructions
+## A. General instructions
 
 The `cdk.json` file tells the CDK Toolkit how to execute your app.
 
@@ -50,7 +50,7 @@ To add additional dependencies, for example other CDK libraries, just add
 them to your `setup.py` file and rerun the `pip install -r requirements.txt`
 command.
 
-## Useful CDK commands 
+### Useful CDK commands 
 
  * `cdk ls`          list all stacks in the app
  * `cdk synth`       emits the synthesized CloudFormation template
@@ -59,34 +59,45 @@ command.
  * `cdk docs`        open CDK documentation
 
 
-B.	Pre-requisites
+## B.	Pre-requisites
 The CDK must be installed on your laptop.
 See https://docs.aws.amazon.com/cdk/latest/guide/getting_started.html for more details on how to do that.
 
-C.	Install
+## C.	Install
 
-1.	Deploy the CDK Toolkit stack into your AWS environment
+### 1.	Deploy the CDK Toolkit stack into your AWS environment
 This step only has to be performed once if you never used the CDK before in your AWS account.
 
+```
 $ cdk bootstrap  
+```
 
-Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be ‘cdk bootstrap  
---profile <your AWS profile>’
+Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be 
 
-The command output should look like this and give confirmation that the environment has been bootstrapped.
+```
+$ cdk bootstrap --profile <your AWS profile>
+```
 
+The command output should give confirmation that the environment has been bootstrapped.
  
 
-2.	Deploy the CDK stack to your AWS environment
+### 2.	Deploy the CDK stack to your AWS environment
+Issue the following command 
+
+```
 $ cdk deploy
+```
 
-Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be ‘cdk deploy 
---profile <your AWS profile>’
+Note: if you use a specific AWS profile (defined in your <HOME>/.aws directory) the command would be 
 
-The command output should look like this and give confirmation that the stack has been successfully deployed.
+```
+$ cdk deploy --profile <your AWS profile>
+```
+
+The command output should give confirmation that the stack has been successfully deployed.
  
 
-D.	Post-install
+## D.	Post-install
 Transcribe is not supported yet by the CDK so the custom vocabulary has to be created manually.
 Log in on the AWS Console on your account and select Amazon Transcribe among the list of services.
 Create a custom vocabulary called custom-vocab_nl-NL, or replace “nl-NL” by the specific language that you want to transcribe from.
@@ -95,22 +106,28 @@ The custom vocabulary has to be uploaded to S3 first (direct upload fails repeat
 
 For more details on custom vocabularies, see https://docs.aws.amazon.com/transcribe/latest/dg/how-vocabulary.html 
 
-here is a sample custom vocabulary file (note that the column fields must be tab-separated) :
+Here is a sample custom vocabulary file (note that the column fields must be tab-separated) :
+
+```
 Phrase	SoundsLike	DisplayAs	IPA
 A.P.I.	eh-pea-eye	API
+```
 
 
-E. Usage
+## E. Usage
 
 Upon deployment the CDK stack creates 2 S3 buckets : 
 - transcribe-source-<random-string> (aka source bucket)
 - transcribe-results -<random-string> (aka results bucket)
+
 and 2 Lambda functions :
 - tc-stack-simpletranscribe<ID1>
 - tc-stack-simpletranscribereport<ID2>
 
 Whenever a media file is dropped in the source bucket, it will trigger the first Lambda function that will pick up the media file and, if the format is supported by Amazon Transcribe (currently .mp4, .mp3, .wav, .flac), will start a Transcription Job.
+
 When the Transcription Job is complete, the 2nd Lambda function will be triggered. That function extracts the necessary information from the Transcription Job, and calls Amazon Comprehend to extract further meaningful information (eg key phrases, entities, sentiment) from the transcript. 
+
 If Amazon Comprehend does not directly support the language in the media, the transcript will first pass through a translation to English.
 
 
